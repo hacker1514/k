@@ -60,7 +60,10 @@ def eval_code(code):
         elif code[0] == "display":
             display(" ".join(code[1:]), variables)
         elif code[0] == "get":
-            variables[code[1]] = get()
+            if code[1]=="<":
+                variables[code[1]] = get()
+            else:
+                print(f"\033[33m::\033[31mError\033[33m::\033[35msyntax \033[32m error !")
         elif code[0] == "...":
             system(code)
         elif len(code) == 2:
