@@ -61,7 +61,10 @@ def eval_code(code):
             display(" ".join(code[1:]), variables)
         elif code[0] == "get":
             if code[1]=="<":
-                variables[code[1]] = get()
+                if len(code)===2:
+                    variables[code[2]] = get()
+                else:
+                    print(f"\033[33m::\033[31mError\033[33m::\033[35mvariable \033[32m not found !")
             else:
                 print(f"\033[33m::\033[31mError\033[33m::\033[35msyntax \033[32m error !")
         elif code[0] == "...":
