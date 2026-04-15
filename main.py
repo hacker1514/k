@@ -1,49 +1,44 @@
 import colorama
-from sys import exit, argv
 colorama.init()
-from eval_code import *
-from terminal import *
-from editor import *
 
-if len(argv)==1:
-    print("\033[33m::\033[31mError\033[33m:: \033[4;36marguments\033[0m\033[32m not found !")
+from sys import argv
+
+import os
+
+import eval_code
+
+import terminal
+
+import editor 
+
+argv.pop(0)
+
+if len(argv)==0:
+    print("\033[33m::\033[31mError\033[33m::\033[4;36marguments\033[0m \033[35m not found !")
     exit()
-
-if argv[1]=="--terminal":
-    terminal()
+elif argv[0]=="--version":
+    print("\033[32m::\033[33mversion\033[32m::\033[4;36m1.0\033[0m")
     exit()
-
-if argv[1]=="--version":
-    print("\033[33m::\033[35mversion\033[33m::\033[32m1.0")
-    exit()
-
-if argv[1]=="--file":
+elif argv[0]=="--terminal":
+    terminal.terminal()
+elif argv[0]=="--file":
     try:
-        editor(argv[2])
+        editor.editor(argv[1])
     except:
-        print("\033[33m::\033[31mError\033[33m::\033[32mfile name not found !")
-    exit()
-
-if '.' in argv[1]:
-    if argv[1].split('.')[1]=="k":
-        try:
-            f=open(argv[1],"r")
-            code=f.read().split("\n")
-            f.close()
-        except:
-            print(f"\033[33m::\033[31mError\033[33m::\033[32mfile \033[33m{argv[1]}\033[32m not found !")
-            exit()
-        try:
-            for i in code:
-                i=i.strip()
-                if len(i)==0:
-                    continue
-                eval_code(i.split(' '))
-        except Exception as e:
-            print("\033[33m::\033[31mError\033[33m::\033[32m", e)
+        print("\033[33m::\033[31mError\033[33m::\033[4;36mfile\033[0m\033[35m not found !")
+elif '.' in argv[0] and argv[0].split('.')[1]=="k" :
+    if os.path.exists(argv[0]):
+        with open(argv[0],"r") as f :
+            lines=f.read().split("\n")
+            for i in lines:
+                try:
+                    eval_code.eval_code(i);
+                except :
+                    print("\033[33m::\033[31mError\033[33m::\033[4;36msyntax\033[0m\033[35m error !")
+                    exit()
     else:
-        print("\033[33m::\033[31mError\033[33m::\033[32mfile extension should be '\033[33m.k\033[32m' !")
+        print(f"\033[33m::\033[31mError\033[33m::\033[4;36m{argv[0]}\033[0m\033[35m not found !")
         exit()
 else:
-    print("\033[33m::\033[31mError\033[33m:: \033[4;36marguments\033[0m\033[32m not found !")
+    print("\033[33m::\033[31mError\033[33m::\033[35m invalide \033[4;36marguments\033[0m \033[36m !")
     exit()

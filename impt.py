@@ -1,5 +1,6 @@
 import os
-from eval_code import eval_code, variables
+from eval_code import eval_code
+from variables import variables
 from fun import fun_list
 
 _imported_files = set()
@@ -18,17 +19,17 @@ def impt(filename):
     file_funcs = []
     try:
         with open(filename, "r") as f:
-            code = f.read().splitlines()
-        for line in code:
+            lines = f.read().splitlines()
+        for line in lines:
             line = line.strip()
             if not line:
                 continue
-            tokens = line.split(" ")
             pre_vars = set(variables.keys())
-            eval_code(tokens)
+            pre_funcs = list(fun_list)
+            eval_code(line)
             new_vars = set(variables.keys()) - pre_vars
             file_vars.update(new_vars)
-            new_funcs = [func for func in fun_list if func not in file_funcs]
+            new_funcs = [f for f in fun_list if f not in pre_funcs]
             file_funcs.extend(new_funcs)
         _imported_files.add(filename)
         _imported_files_data[filename] = {"variables": file_vars, "functions": file_funcs}

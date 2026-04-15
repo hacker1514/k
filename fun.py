@@ -9,7 +9,7 @@ class FunLine:
 
 class Function:
     def __init__(self, name):
-        self.name = name
+        self.name = name.strip()
         self.start = None
         self.end = None
 
@@ -54,5 +54,6 @@ def call_fun(name, eval_func):
         return
     temp = f.start
     while temp:
-        eval_func(temp.line.split(" "))
+        eval_func(temp.line)
         temp = temp.next
+

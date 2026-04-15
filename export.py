@@ -1,8 +1,9 @@
-from eval_code import variables
+from variables import variables
 from fun import fun_list
 from impt import _imported_files, _imported_files_data
 
 def expt(module_name):
+    module_name = module_name.strip()
     if not module_name.endswith(".k"):
         module_name += ".k"
     if module_name not in _imported_files:
